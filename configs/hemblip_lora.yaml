@@ -1,0 +1,40 @@
+model:
+  name: hemblip_lora
+  base_model: Salesforce/blip-image-captioning-base
+  lora: true
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  lora_target_modules:
+    - "self.query"
+    - "self.key"
+    - "self.value"
+    - "output.dense"
+
+data:
+  wbcatt_dir: data/wbcatt
+  leukemia_dir: data/leukemia
+  external_dir: data/external
+  val_split: 0.1
+  test_split: 0.1
+  image_size: 384
+  max_caption_length: 128
+
+training:
+  output_dir: outputs/hemblip_lora
+  num_epochs: 20
+  batch_size: 8             # 8 GB VRAM con fp16; bajar a 4 si hay OOM
+  gradient_accumulation_steps: 2   # batch efectivo = 16
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_steps: 200
+  patience: 5
+  seed: 42
+  fp16: true                # Tensor Cores RTX 3070
+  num_workers: 4
+  compile: false            # true para ~10% extra de velocidad (PyTorch 2.x)
+
+evaluation:
+  batch_size: 16
+  max_new_tokens: 128
+  num_beams: 4

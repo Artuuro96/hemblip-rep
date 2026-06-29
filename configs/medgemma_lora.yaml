@@ -1,0 +1,38 @@
+model:
+  name: medgemma_lora
+  base_model: google/medgemma-4b-it
+  lora: true
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  lora_target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+
+data:
+  wbcatt_dir: data/wbcatt
+  leukemia_dir: data/leukemia
+  external_dir: data/external
+  val_split: 0.1
+  test_split: 0.1
+  image_size: 224
+  max_caption_length: 128
+
+training:
+  output_dir: outputs/medgemma_lora
+  num_epochs: 20
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_steps: 200
+  patience: 5
+  seed: 42
+  fp16: true
+
+evaluation:
+  batch_size: 8
+  max_new_tokens: 128
+  num_beams: 1

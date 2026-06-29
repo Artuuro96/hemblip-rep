@@ -1,0 +1,32 @@
+model:
+  name: hemblip_full
+  base_model: Salesforce/blip-image-captioning-base
+  lora: false
+
+data:
+  wbcatt_dir: data/wbcatt
+  leukemia_dir: data/leukemia
+  external_dir: data/external
+  val_split: 0.1
+  test_split: 0.1
+  image_size: 384
+  max_caption_length: 128
+
+training:
+  output_dir: outputs/hemblip_full
+  num_epochs: 20
+  batch_size: 4             # full fine-tune usa más VRAM por optimizer states
+  gradient_accumulation_steps: 4   # batch efectivo = 16
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_steps: 200
+  patience: 5
+  seed: 42
+  fp16: true
+  num_workers: 4
+  compile: false
+
+evaluation:
+  batch_size: 16
+  max_new_tokens: 128
+  num_beams: 4

@@ -78,29 +78,43 @@ python scripts/download_datasets.py --kaggle-external
 ```
 
 ### WBCATt (healthy WBCs)
-Download from: https://github.com/apple2373/wbcatt  
-Place unzipped contents at `data/wbcatt/`.
+
+**Download:** https://github.com/apple2373/wbcatt
+
+Unzip and place contents at `data/wbcatt/`. Expected structure:
+```
+data/wbcatt/
+└── PBC_dataset_normal_DIB/
+    ├── neutrophil/
+    ├── eosinophil/
+    ├── basophil/
+    ├── lymphocyte/
+    ├── monocyte/
+    ├── erythroblast/
+    ├── ig/
+    └── platelet/
+```
 
 ### LeukemiaAttri (leukemic WBCs)
-Download from Kaggle: https://www.kaggle.com/datasets/andrewblayamastephen/leukemiaattri-dataset
+
+**Download:** https://www.kaggle.com/datasets/andrewblayamastephen/leukemiaattri-dataset
 
 ```bash
+# Automatic (requires Kaggle CLI + credentials)
 python scripts/download_datasets.py --kaggle-leukemia
-```
-O descarga manualmente y coloca en `data/leukemia/`.
 
-Expected annotation format (JSON list of dicts):
-```json
-[
-  {
-    "image_id": "img_00001",
-    "cell_type": "neutrophil",
-    "nuclear_shape": "multilobulated",
-    "chromatin": "coarse",
-    "cytoplasm_amount": "moderate",
-    ...
-  }
-]
+# Or download manually and unzip to data/leukemia/
+```
+
+Expected structure:
+```
+data/leukemia/
+└── archive/
+    └── Original/
+        ├── Benign/    ← healthy lymphocytes
+        ├── Early/     ← ALL-L1
+        ├── Pre/       ← ALL-L2
+        └── Pro/       ← ALL-L3
 ```
 
 ## Training

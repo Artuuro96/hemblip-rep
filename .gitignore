@@ -1,0 +1,27 @@
+# Datasets (archivos grandes, no van al repo)
+data/
+
+# Configuración local de Claude Code
+.claude/
+
+# Outputs de entrenamiento
+outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Modelos y checkpoints
+*.bin
+*.safetensors
+*.pt
+*.pth
