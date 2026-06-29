@@ -12,8 +12,8 @@ model:
     - o_proj
 
 data:
-  wbcatt_dir: data/wbcatt
-  leukemia_dir: data/leukemia
+  wbcatt_dir: data/PBC_dataset_normal_DIB
+  leukemia_dir: data/archive/LeukemiaAttri_Dataset
   external_dir: data/external
   val_split: 0.1
   test_split: 0.1

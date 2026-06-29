@@ -1,3 +1,15 @@
+# HemBLIP LoRA — optimised for RTX 3070 (8 GB VRAM, Ampere GA104)
+#
+# VRAM budget (fp16, batch=8, image 384x384):
+#   Model weights  ~500 MB  (only ~4 MB trainable with LoRA)
+#   Optimizer      ~500 MB  (AdamW on LoRA params only)
+#   Activations    ~3.5 GB  (vision encoder frozen → no grad stored there)
+#   Workspace      ~1.5 GB  (cuBLAS, cuDNN buffers)
+#   Total          ~6 GB    → fits comfortably in 8 GB
+#
+# If you see OOM errors, lower batch_size to 4 (keep gradient_accumulation_steps=4
+# to maintain an effective batch of 16).
+
 model:
   name: hemblip_lora
   base_model: Salesforce/blip-image-captioning-base
@@ -12,29 +24,29 @@ model:
     - "output.dense"
 
 data:
-  wbcatt_dir: data/wbcatt
-  leukemia_dir: data/leukemia
+  wbcatt_dir: data/PBC_dataset_normal_DIB
+  leukemia_dir: data/archive/LeukemiaAttri_Dataset
   external_dir: data/external
   val_split: 0.1
   test_split: 0.1
-  image_size: 384
+  image_size: 384           # BlipProcessor resizes to this internally
   max_caption_length: 128
 
 training:
   output_dir: outputs/hemblip_lora
   num_epochs: 20
-  batch_size: 8             # 8 GB VRAM con fp16; bajar a 4 si hay OOM
-  gradient_accumulation_steps: 2   # batch efectivo = 16
-  learning_rate: 5.0e-5
+  batch_size: 8             # RTX 3070: 8 with LoRA (frozen vision encoder)
+  gradient_accumulation_steps: 2   # effective batch = 16
+  learning_rate: 5.0e-5    # paper §2.2
   weight_decay: 0.01
   warmup_steps: 200
-  patience: 5
+  patience: 5               # early stopping
   seed: 42
-  fp16: true                # Tensor Cores RTX 3070
-  num_workers: 4
-  compile: false            # true para ~10% extra de velocidad (PyTorch 2.x)
+  fp16: true                # AMP with Tensor Cores (GA104 Ampere)
+  num_workers: 2            # Windows: 2 is stable; Linux: can raise to 4-8
+  compile: false            # torch.compile() unstable on Windows; set true on Linux for ~10% speedup
 
 evaluation:
-  batch_size: 16
+  batch_size: 32            # inference only — can use larger batch than training
   max_new_tokens: 128
   num_beams: 4

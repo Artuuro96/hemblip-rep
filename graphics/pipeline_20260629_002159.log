@@ -1,0 +1,17 @@
+2026-06-29 00:21:59  INFO     ============================================================
+2026-06-29 00:21:59  INFO     HemBLIP Pipeline  --  20260629_002159
+2026-06-29 00:21:59  INFO     Device     : cuda
+2026-06-29 00:21:59  INFO     Configs    : ['configs/hemblip_lora.yaml']
+2026-06-29 00:21:59  INFO     BERTScore  : distilbert-base-uncased
+2026-06-29 00:21:59  INFO     Log file   : graphics\pipeline_20260629_002159.log
+2026-06-29 00:21:59  INFO     ============================================================
+2026-06-29 00:21:59  INFO     GPU : NVIDIA GeForce RTX 3070  |  VRAM : 8.6 GB
+2026-06-29 00:21:59  INFO     
+2026-06-29 00:21:59  INFO     ============================================================
+2026-06-29 00:21:59  INFO     CONFIG: configs/hemblip_lora.yaml
+2026-06-29 00:21:59  INFO     ============================================================
+2026-06-29 00:21:59  INFO     [1/3] TRAINING
+2026-06-29 00:21:59  INFO     Building model ...
+2026-06-29 00:22:01  INFO     Loading datasets ...
+2026-06-29 00:22:02  INFO     Splits — train: 46669 | val: 5375 | test: 16609
+2026-06-29 00:22:03  INFO     Training — max 20 epochs | patience=5 | effective batch=16

@@ -1,0 +1,39 @@
+2026-06-29 00:18:50  INFO     ============================================================
+2026-06-29 00:18:50  INFO     HemBLIP Pipeline  --  20260629_001850
+2026-06-29 00:18:50  INFO     Device     : cuda
+2026-06-29 00:18:50  INFO     Configs    : ['configs/hemblip_lora.yaml']
+2026-06-29 00:18:50  INFO     BERTScore  : distilbert-base-uncased
+2026-06-29 00:18:50  INFO     Log file   : graphics\pipeline_20260629_001850.log
+2026-06-29 00:18:50  INFO     ============================================================
+2026-06-29 00:18:50  INFO     GPU : NVIDIA GeForce RTX 3070  |  VRAM : 8.6 GB
+2026-06-29 00:18:50  INFO     
+2026-06-29 00:18:50  INFO     ============================================================
+2026-06-29 00:18:50  INFO     CONFIG: configs/hemblip_lora.yaml
+2026-06-29 00:18:50  INFO     ============================================================
+2026-06-29 00:18:50  INFO     [1/3] TRAINING
+2026-06-29 00:18:50  INFO     Building model ...
+2026-06-29 00:18:52  INFO     Loading datasets ...
+2026-06-29 00:18:52  ERROR    [1/3] Training failed: WBCATt source not found: data\PBC_dataset_normal_DIB.zip
+Expected: data/PBC_dataset_normal_DIB.zip or an extracted directory
+Traceback (most recent call last):
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\scripts\run_pipeline.py", line 459, in main
+    ckpt = run_training(cfg, device, logger)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\scripts\run_pipeline.py", line 123, in run_training
+    train_ds, val_ds, test_ds, _ = build_datasets(
+                                   ^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\src\data\hemblip_dataset.py", line 167, in build_datasets
+    wbc_samples = load_wbcatt(wbcatt_dir)
+                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\src\data\wbcatt_dataset.py", line 112, in load_wbcatt
+    root = _ensure_extracted(Path(wbcatt_dir))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\src\data\wbcatt_dataset.py", line 85, in _ensure_extracted
+    raise FileNotFoundError(
+FileNotFoundError: WBCATt source not found: data\PBC_dataset_normal_DIB.zip
+Expected: data/PBC_dataset_normal_DIB.zip or an extracted directory
+2026-06-29 00:18:52  INFO     
+2026-06-29 00:18:52  INFO     ============================================================
+2026-06-29 00:18:52  INFO     PIPELINE COMPLETE -- total time: 0:00:01
+2026-06-29 00:18:52  INFO     ============================================================
+2026-06-29 00:18:52  INFO     Summary saved -> graphics\pipeline_summary_20260629_001850.txt

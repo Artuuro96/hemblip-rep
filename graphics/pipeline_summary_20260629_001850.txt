@@ -1,0 +1,10 @@
+HemBLIP Pipeline Summary
+====================================================
+Completed : 2026-06-29 00:18:52
+Total time: 0:00:01
+
+Config  : configs/hemblip_lora.yaml
+  Status  : training_failed
+  Runtime : 0:00:01
+  Error: WBCATt source not found: data\PBC_dataset_normal_DIB.zip
+Expected: data/PBC_dataset_normal_DIB.zip or an extracted directory

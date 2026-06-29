@@ -1,0 +1,9 @@
+HemBLIP Pipeline Summary
+====================================================
+Completed : 2026-06-28 23:45:33
+Total time: 0:00:32
+
+Config  : configs/hemblip_lora.yaml
+  Status  : training_failed
+  Runtime : 0:00:32
+  Error: Can't load the model for 'Salesforce/blip-image-captioning-base'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'Salesforce/blip-image-captioning-base' is the correct path to a directory containing a file named pytorch_model.bin.

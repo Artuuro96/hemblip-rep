@@ -1,0 +1,23 @@
+HemBLIP Pipeline Summary
+====================================================
+Completed : 2026-06-29 00:41:43
+Total time: 0:14:02
+
+Config  : configs/hemblip_lora.yaml
+  Status  : training_failed
+  Runtime : 0:14:02
+  Error: Caught UnidentifiedImageError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\utils\data\_utils\worker.py", line 351, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\utils\data\_utils\fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\src\data\hemblip_dataset.py", line 62, in __getitem__
+    img = Image.open(item["image_path"]).convert("RGB")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\PIL\Image.py", line 3711, in open
+    raise UnidentifiedImageError(msg)
+PIL.UnidentifiedImageError: cannot identify image file 'data\\PBC_dataset_normal_DIB\\PBC_dataset_normal_DIB\\neutrophil\\.DS_169665.jpg'
+

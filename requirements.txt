@@ -1,6 +1,6 @@
 torch>=2.0.0
 torchvision>=0.15.0
-transformers>=4.40.0
+transformers>=4.40.0,<4.48.0
 peft>=0.10.0
 evaluate>=0.4.0
 bert-score>=0.3.13
@@ -13,3 +13,4 @@ Pillow>=10.0.0
 tqdm>=4.65.0
 pyyaml>=6.0
 sentencepiece>=0.2.0
+matplotlib>=3.7.0

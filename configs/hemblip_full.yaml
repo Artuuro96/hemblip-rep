@@ -1,11 +1,23 @@
+# HemBLIP Full fine-tune — optimised for RTX 3070 (8 GB VRAM, Ampere GA104)
+#
+# VRAM budget (fp16, batch=4, image 384x384):
+#   Model weights  ~500 MB  (ALL ~250 M params trainable)
+#   Optimizer      ~1.5 GB  (AdamW master weights + momentums in fp32)
+#   Activations    ~3.5 GB  (vision encoder NOT frozen → gradients stored)
+#   Workspace      ~1.0 GB
+#   Total          ~6.5 GB  → fits in 8 GB; raise to 6 if OOM
+#
+# Full fine-tune trains slower and uses more VRAM than LoRA.
+# Run hemblip_lora.yaml first to validate the pipeline, then this one.
+
 model:
   name: hemblip_full
   base_model: Salesforce/blip-image-captioning-base
   lora: false
 
 data:
-  wbcatt_dir: data/wbcatt
-  leukemia_dir: data/leukemia
+  wbcatt_dir: data/PBC_dataset_normal_DIB
+  leukemia_dir: data/archive/LeukemiaAttri_Dataset
   external_dir: data/external
   val_split: 0.1
   test_split: 0.1
@@ -15,18 +27,18 @@ data:
 training:
   output_dir: outputs/hemblip_full
   num_epochs: 20
-  batch_size: 4             # full fine-tune usa más VRAM por optimizer states
-  gradient_accumulation_steps: 4   # batch efectivo = 16
+  batch_size: 4             # RTX 3070: 4 with full fine-tune (all grads in VRAM)
+  gradient_accumulation_steps: 4   # effective batch = 16
   learning_rate: 5.0e-5
   weight_decay: 0.01
   warmup_steps: 200
   patience: 5
   seed: 42
-  fp16: true
-  num_workers: 4
+  fp16: true                # AMP with Tensor Cores (GA104 Ampere)
+  num_workers: 2            # Windows: 2 stable; Linux: 4-8
   compile: false
 
 evaluation:
-  batch_size: 16
+  batch_size: 16            # lower than LoRA since full model uses more VRAM at inference
   max_new_tokens: 128
   num_beams: 4

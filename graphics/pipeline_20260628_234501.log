@@ -1,0 +1,64 @@
+2026-06-28 23:45:01  INFO     ============================================================
+2026-06-28 23:45:01  INFO     HemBLIP Pipeline  --  20260628_234501
+2026-06-28 23:45:01  INFO     Device     : cuda
+2026-06-28 23:45:01  INFO     Configs    : ['configs/hemblip_lora.yaml']
+2026-06-28 23:45:01  INFO     BERTScore  : distilbert-base-uncased
+2026-06-28 23:45:01  INFO     Log file   : graphics\pipeline_20260628_234501.log
+2026-06-28 23:45:01  INFO     ============================================================
+2026-06-28 23:45:01  INFO     GPU : NVIDIA GeForce RTX 3070  |  VRAM : 8.6 GB
+2026-06-28 23:45:01  INFO     
+2026-06-28 23:45:01  INFO     ============================================================
+2026-06-28 23:45:01  INFO     CONFIG: configs/hemblip_lora.yaml
+2026-06-28 23:45:01  INFO     ============================================================
+2026-06-28 23:45:01  INFO     [1/3] TRAINING
+2026-06-28 23:45:01  INFO     Building model ...
+2026-06-28 23:45:33  ERROR    [1/3] Training failed: Can't load the model for 'Salesforce/blip-image-captioning-base'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'Salesforce/blip-image-captioning-base' is the correct path to a directory containing a file named pytorch_model.bin.
+Traceback (most recent call last):
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\modeling_utils.py", line 705, in _get_resolved_checkpoint_files
+    resolved_archive_file = cached_file(
+                            ^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\utils\hub.py", line 293, in cached_file
+    file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\utils\hub.py", line 527, in cached_files
+    raise e
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\utils\hub.py", line 437, in cached_files
+    hf_hub_download(
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\utils\_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\file_download.py", line 1015, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\file_download.py", line 1237, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\file_download.py", line 1860, in _download_to_tmp_and_move
+    xet_get(
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\huggingface_hub\file_download.py", line 565, in xet_get
+    with session.new_file_download_group(
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Task error: File reconstruction error: IO Error: Espacio en disco insuficiente. (os error 112)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\scripts\run_pipeline.py", line 459, in main
+    ckpt = run_training(cfg, device, logger)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\scripts\run_pipeline.py", line 113, in run_training
+    model, processor = build_hemblip(
+                       ^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\OneDrive\Escritorio\CIDETEC\hemblip-rep\src\models\hemblip.py", line 79, in build_hemblip
+    model = BlipForConditionalGeneration.from_pretrained(base_model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\modeling_utils.py", line 4229, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Arturo Rodriguez\AppData\Local\Programs\Python\Python312\Lib\site-packages\transformers\modeling_utils.py", line 758, in _get_resolved_checkpoint_files
+    raise OSError(
+OSError: Can't load the model for 'Salesforce/blip-image-captioning-base'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'Salesforce/blip-image-captioning-base' is the correct path to a directory containing a file named pytorch_model.bin.
+2026-06-28 23:45:33  INFO     
+2026-06-28 23:45:33  INFO     ============================================================
+2026-06-28 23:45:33  INFO     PIPELINE COMPLETE -- total time: 0:00:32
+2026-06-28 23:45:33  INFO     ============================================================
+2026-06-28 23:45:33  INFO     Summary saved -> graphics\pipeline_summary_20260628_234501.txt
