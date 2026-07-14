@@ -1,0 +1,23 @@
+HemBLIP Caption Dataset — EDA Summary
+=============================================
+Total images       : 10298
+  train            : 6169
+  val              : 1030
+  test             : 3099
+
+Cell types          : ['basophil', 'eosinophil', 'lymphocyte', 'monocyte', 'neutrophil']
+Caption length (words): mean=38.6  median=38  min=37  max=42
+Unique captions      : 363 / 10298 (3.5%)
+Vocabulary size      : 44 distinct content words
+
+Top 10 words:
+  cytoplasm       20596
+  round           12150
+  nucleus         10298
+  packed          10298
+  chromatin       10298
+  size            10298
+  overall         10298
+  shape           10298
+  blue            10298
+  texture         10298

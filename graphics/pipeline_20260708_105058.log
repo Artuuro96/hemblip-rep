@@ -1,0 +1,62 @@
+2026-07-08 10:50:58  INFO     ============================================================
+2026-07-08 10:50:58  INFO     HemBLIP Pipeline  --  20260708_105058
+2026-07-08 10:50:58  INFO     Device     : cuda
+2026-07-08 10:50:58  INFO     Configs    : ['configs/hemblip_lora.yaml']
+2026-07-08 10:50:58  INFO     BERTScore  : distilbert-base-uncased
+2026-07-08 10:50:58  INFO     Log file   : graphics\pipeline_20260708_105058.log
+2026-07-08 10:50:58  INFO     ============================================================
+2026-07-08 10:50:58  INFO     GPU : NVIDIA RTX A4000  |  VRAM : 17.2 GB
+2026-07-08 10:50:58  INFO     
+2026-07-08 10:50:58  INFO     ============================================================
+2026-07-08 10:50:58  INFO     CONFIG: configs/hemblip_lora.yaml
+2026-07-08 10:50:58  INFO     ============================================================
+2026-07-08 10:50:58  INFO     [1/3] TRAINING
+2026-07-08 10:50:58  INFO     Building model ...
+2026-07-08 10:50:59  INFO     Loading datasets ...
+2026-07-08 10:51:00  INFO     Splits — train: 13682 | val: 1705 | test: 1705
+2026-07-08 10:51:00  INFO     Training — max 20 epochs | patience=5 | effective batch=16
+2026-07-08 12:05:42  INFO     Training complete. Best checkpoint: outputs\hemblip_lora\best
+2026-07-08 12:05:44  INFO     [1/3] Done in 1:14:45
+2026-07-08 12:05:44  INFO     
+2026-07-08 12:05:44  INFO     [2/3] EVALUATION
+2026-07-08 12:05:45  INFO     Loading checkpoint: outputs\hemblip_lora\best
+2026-07-08 12:05:46  INFO     Loading datasets for evaluation ...
+2026-07-08 12:05:47  INFO     Generating captions on test set ...
+2026-07-08 12:15:13  INFO     BLEU=0.3961  ROUGE-L=0.5750  BERTScore=0.9201
+2026-07-08 12:15:13  INFO     Attribute accuracy: {'cell_type': '0.908', 'nuclear_chromatin_texture': '0.695', 'cytoplasm_amount': '0.656', 'diagnosis': 'N/A', 'nuclear_shape': '0.762', 'overall_shape': '0.000', 'cell_size': '0.376'}
+2026-07-08 12:15:13  INFO     Frozen-backbone classifier ...
+2026-07-08 12:18:16  INFO     Cell type — acc=0.910  f1=0.909
+2026-07-08 12:18:16  INFO     Results saved -> outputs\hemblip_lora\best\eval_results.json
+2026-07-08 12:18:16  INFO     [2/3] Done in 0:12:32
+2026-07-08 12:18:16  INFO     
+2026-07-08 12:18:16  INFO     [3/3] PLOTTING
+2026-07-08 12:18:16  ERROR    [3/3] Plotting failed: unsupported operand type(s) for +: 'int' and 'NoneType'
+Traceback (most recent call last):
+  File "C:\Users\Lyapunov\Desktop\Arturo\hemblip-rep\scripts\run_pipeline.py", line 488, in main
+    run_plotting(run_dir, logger)
+  File "C:\Users\Lyapunov\Desktop\Arturo\hemblip-rep\scripts\run_pipeline.py", line 289, in run_plotting
+    plot_single_run(run_dir, history, eval_res, out)
+  File "C:\Users\Lyapunov\Desktop\Arturo\hemblip-rep\scripts\plot_training.py", line 220, in plot_single_run
+    _bar_group(
+  File "C:\Users\Lyapunov\Desktop\Arturo\hemblip-rep\scripts\plot_training.py", line 105, in _bar_group
+    bars = ax.bar(x + offset, vals, width, label=lbl,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lyapunov\AppData\Local\Programs\Python\Python311\Lib\site-packages\matplotlib\__init__.py", line 1521, in inner
+    return func(
+           ^^^^^
+  File "C:\Users\Lyapunov\AppData\Local\Programs\Python\Python311\Lib\site-packages\matplotlib\axes\_axes.py", line 2646, in bar
+    r = mpatches.Rectangle(
+        ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lyapunov\AppData\Local\Programs\Python\Python311\Lib\site-packages\matplotlib\patches.py", line 786, in __init__
+    self._convert_units()  # Validate the inputs.
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lyapunov\AppData\Local\Programs\Python\Python311\Lib\site-packages\matplotlib\patches.py", line 797, in _convert_units
+    y1 = self.convert_yunits(self._y0 + self._height)
+                             ~~~~~~~~~^~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for +: 'int' and 'NoneType'
+2026-07-08 12:18:16  INFO     Config finished in 1:27:17
+2026-07-08 12:18:16  INFO     
+2026-07-08 12:18:16  INFO     ============================================================
+2026-07-08 12:18:16  INFO     PIPELINE COMPLETE -- total time: 1:27:17
+2026-07-08 12:18:16  INFO     ============================================================
+2026-07-08 12:18:16  INFO     Summary saved -> graphics\pipeline_summary_20260708_105058.txt

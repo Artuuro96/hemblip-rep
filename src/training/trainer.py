@@ -143,7 +143,9 @@ class HemBLIPTrainer:
         print(f"  Batch efectivo: {eff_batch}  (size={batch_size} × accum={gradient_accumulation_steps})")
         print(f"  fp16: {self.fp16} | workers: {_nw} | steps/epoch: {len(self.train_loader)}")
 
-    # ------------------------------------------------------------------
+    # -----------------------------------}----
+    # 
+    # 
 
     def train(self) -> str:
         """Entrena hasta max epochs o early stopping. Devuelve ruta al mejor checkpoint."""
@@ -178,7 +180,7 @@ class HemBLIPTrainer:
                 epochs_no_improve = 0
                 best_dir = str(self.output_dir / "best")
                 save_model(self.model, best_dir, self.processor)
-                print(f"  ✓ Mejor val_loss={best_val_loss:.4f} → {best_dir}")
+                print(f"  [OK] Mejor val_loss={best_val_loss:.4f} -> {best_dir}")
             else:
                 epochs_no_improve += 1
                 print(f"  Sin mejora ({epochs_no_improve}/{self.patience})")

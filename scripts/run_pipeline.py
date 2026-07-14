@@ -25,6 +25,10 @@ Usage
   # Skip evaluation / plot if you only want to train
   py scripts/run_pipeline.py --skip-eval
   py scripts/run_pipeline.py --skip-eval --skip-plot
+
+  # Resume: training already finished, just re-run eval + plot on the saved checkpoint
+  py scripts/run_pipeline.py --skip-train
+  py scripts/run_pipeline.py --skip-train --checkpoint outputs/hemblip_lora/best
 """
 
 # ── stdlib only at module level — keeps --help instant ────────────────────────
@@ -389,6 +393,15 @@ Examples:
     )
     p.add_argument("--skip-eval",  action="store_true", help="Skip evaluation step")
     p.add_argument("--skip-plot",  action="store_true", help="Skip plotting step")
+    p.add_argument(
+        "--skip-train", action="store_true",
+        help="Skip training and evaluate an existing checkpoint "
+             "(defaults to <output_dir>/best, override with --checkpoint)",
+    )
+    p.add_argument(
+        "--checkpoint", default=None,
+        help="Checkpoint path to evaluate when --skip-train is set",
+    )
     return p.parse_args()
 
 
@@ -453,17 +466,28 @@ def main() -> None:
         run_dirs.append(run_dir)
 
         # ── 1. Training ───────────────────────────────────────────────────────
-        try:
-            logger.info("[1/3] TRAINING")
-            t1 = time.time()
-            ckpt = run_training(cfg, device, logger)
+        if args.skip_train:
+            ckpt = args.checkpoint or str(run_dir / "best")
+            if not Path(ckpt).exists():
+                record.update(status="training_failed",
+                              error=f"--skip-train given but checkpoint not found: {ckpt}")
+                logger.error(record["error"])
+                records.append(record); elapsed.append(time.time() - t0)
+                continue
             record["checkpoint"] = ckpt
-            logger.info("[1/3] Done in %s", _fmt(time.time() - t1))
-        except Exception as exc:
-            record.update(status="training_failed", error=str(exc))
-            logger.exception("[1/3] Training failed: %s", exc)
-            records.append(record); elapsed.append(time.time() - t0)
-            continue
+            logger.info("[1/3] Training skipped (--skip-train) — using checkpoint: %s", ckpt)
+        else:
+            try:
+                logger.info("[1/3] TRAINING")
+                t1 = time.time()
+                ckpt = run_training(cfg, device, logger)
+                record["checkpoint"] = ckpt
+                logger.info("[1/3] Done in %s", _fmt(time.time() - t1))
+            except Exception as exc:
+                record.update(status="training_failed", error=str(exc))
+                logger.exception("[1/3] Training failed: %s", exc)
+                records.append(record); elapsed.append(time.time() - t0)
+                continue
 
         # ── 2. Evaluation ─────────────────────────────────────────────────────
         if not args.skip_eval:

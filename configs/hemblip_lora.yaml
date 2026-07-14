@@ -24,8 +24,8 @@ model:
     - "output.dense"
 
 data:
-  wbcatt_dir: data/PBC_dataset_normal_DIB
-  leukemia_dir: data/archive/LeukemiaAttri_Dataset
+  wbcatt_dir: PBC_dataset_normal_DIB
+  leukemia_dir: data/archive/LeukemiaAttri_Dataset  # not present yet — skipped automatically
   external_dir: data/external
   val_split: 0.1
   test_split: 0.1

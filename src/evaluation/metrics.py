@@ -10,6 +10,7 @@ from typing import Dict, List, Optional
 import torch
 import evaluate
 from bert_score import score as bert_score_fn
+from tqdm import tqdm
 
 
 _bleu_metric = None
@@ -115,6 +116,7 @@ def generate_predictions(
     device: Optional[str] = None,
     max_new_tokens: int = 128,
     num_beams: int = 4,
+    repetition_penalty: float = 1.3,
 ) -> tuple[List[str], List[str]]:
     """
     Genera captions con beam search en GPU.
@@ -128,7 +130,7 @@ def generate_predictions(
     references: List[str] = []
 
     with torch.no_grad():
-        for batch in dataloader:
+        for batch in tqdm(dataloader, desc="Generating captions", unit="batch"):
             pv = batch["pixel_values"].to(device, non_blocking=True)
 
             base = model.base_model.model if hasattr(model, "base_model") else model
@@ -138,6 +140,7 @@ def generate_predictions(
                     pixel_values=pv,
                     max_new_tokens=max_new_tokens,
                     num_beams=num_beams,
+                    repetition_penalty=repetition_penalty,
                 )
 
             preds = processor.batch_decode(out_ids, skip_special_tokens=True)

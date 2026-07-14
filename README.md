@@ -14,6 +14,69 @@ Python replication of **"HemBLIP: A Vision–Language Model for Interpretable Le
 | Attribute eval | Regex morphological extractor | `src/evaluation/attribute_extractor.py` |
 | Classifier probe | Frozen-backbone cosine-sim head (Table 3) | `src/models/classifier.py` |
 
+## Pipeline
+
+End-to-end flow of `scripts/run_pipeline.py` (train → evaluate → plot):
+
+```mermaid
+flowchart TD
+    CFG["configs/hemblip_lora.yaml"]
+
+    subgraph MODEL["1. Model — src/models/hemblip.py"]
+        BUILD["build_hemblip()"]
+        BASE["Salesforce/blip-image-captioning-base"]
+        LORA["LoRA adapters on decoder attention\n(query/key/value/dense)\nvision encoder frozen"]
+        BASE --> BUILD --> LORA
+    end
+
+    subgraph DATA["2. Data — src/data/"]
+        CSV["pbc_attr_v1_{train,test}.csv\n(WBCAtt, 11 attributes)"]
+        CAP["caption_from_attributes()\ncaption_templates.py"]
+        SPLIT["train / val / test split"]
+        DS["HemBLIPDataset + HemBLIPCollator\nimage -> pixel_values\ncaption -> input_ids = labels"]
+        CSV --> CAP --> SPLIT --> DS
+    end
+
+    CFG --> BUILD
+    CFG --> CSV
+
+    subgraph TRAIN["3. Training — src/training/trainer.py"]
+        LOOP["HemBLIPTrainer.train()\nAdamW lr=5e-5, fp16, grad accum\nforward(pixel_values, input_ids, labels)"]
+        IMP{"val_loss\nimproved?"}
+        SAVE["save checkpoint\noutputs/hemblip_lora/best"]
+        STOP["early stopping\n(patience=5)"]
+        LOOP --> IMP
+        IMP -- yes --> SAVE --> LOOP
+        IMP -- "no x5" --> STOP
+    end
+
+    LORA --> LOOP
+    DS --> LOOP
+
+    subgraph EVAL["4. Evaluation — run_evaluation()"]
+        GEN["generate_predictions()\nbeam search, image-only\n(no text prompt)\nsrc/evaluation/metrics.py"]
+        T1["Table 1\nBLEU / ROUGE-L / BERTScore"]
+        T2["Table 2\nattribute_extractor.py\nregex morphology accuracy"]
+        T3["Table 3\nclassifier.py\nfrozen-embedding probe"]
+        RESULTS["eval_results.json"]
+        GEN --> T1 --> RESULTS
+        GEN --> T2 --> RESULTS
+        T3 --> RESULTS
+    end
+
+    SAVE --> GEN
+    STOP --> GEN
+    LORA --> T3
+
+    subgraph PLOT["5. Plotting — scripts/plot_training.py"]
+        CURVES["graphics/<run>_curves.png\ntrain/val loss + metrics"]
+    end
+
+    RESULTS --> CURVES
+```
+
+Key point: HemBLIP is a plain captioning VLM, not instruction-tuned — training/inference never pass a text prompt, only the image; the caption itself doubles as decoder input (teacher forcing) and loss target.
+
 ## Project Structure
 
 ```

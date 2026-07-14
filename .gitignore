@@ -1,5 +1,7 @@
 # Datasets (archivos grandes, no van al repo)
-data/
+/data/
+PBC_dataset_normal_DIB/
+PBC_dataset_normal_DIB.zip
 
 # Configuración local de Claude Code
 .claude/

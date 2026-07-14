@@ -1,0 +1,13 @@
+HemBLIP Pipeline Summary
+====================================================
+Completed : 2026-07-08 12:18:16
+Total time: 1:27:17
+
+Config  : configs/hemblip_lora.yaml
+  Status  : success
+  Runtime : 1:27:17
+  Checkpoint: outputs\hemblip_lora\best
+  BLEU-4      : 0.3961441579400845
+  ROUGE-L     : 0.5749816869491284
+  BERTScore F1: 0.9201498627662659
+  Cell type         : acc=0.910  f1=0.909

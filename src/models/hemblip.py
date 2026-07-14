@@ -157,6 +157,7 @@ def generate_captions(
     pixel_values: torch.Tensor,
     max_new_tokens: int = 128,
     num_beams: int = 4,
+    repetition_penalty: float = 1.3,
     device: str = "cpu",
 ) -> List[str]:
     """Run beam-search decoding and decode to strings."""
@@ -167,5 +168,6 @@ def generate_captions(
             pixel_values=pixel_values.to(device),
             max_new_tokens=max_new_tokens,
             num_beams=num_beams,
+            repetition_penalty=repetition_penalty,
         )
     return processor.batch_decode(out_ids, skip_special_tokens=True)
